@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load pagination_tag %}
+
+{% block content %}
+
+<form method="get" action="{% url 'filter_view' %}">
+
+    {{ filter_form.as_p }}
+    <button type="submit">Filter</button>
+
+</form>
+
+<table border="1px" cellspacing="0px" align="center" width="1000">
+
+    <tr>
+        <td>Date</td>
+        <td>Name</td>
+        <td>Qty</td>
+        <td>Distance</td>
+    </tr>
+
+{% if objects %}
+    {% for obj in objects %}
+
+        <tr>
+            <td>{{ obj.date }}</td>
+            <td>{{ obj.name }}</td>
+            <td>{{ obj.qty }}</td>
+            <td>{{ obj.distance }}</td>
+        </tr>
+
+    {% endfor %}
+{% else %}
+    <tr>
+        <th colspan="4">Nothing found for your request</th>
+    </tr>
+{% endif %}
+
+</table>
+
+{% endblock %}
+
+{% block pagination %}
+    {% if is_paginated %}
+        <div class="pagination" align="center">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?{% url_replace request 'page' page_obj.previous_page_number %}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?{% url_replace request 'page' page_obj.next_page_number %}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+{% endblock %}
