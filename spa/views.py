@@ -7,18 +7,7 @@ from .forms import FilterForm
 from .services import my_filter
 
 
-class Filter:
-
-    @staticmethod
-    def get_columns():
-        return [name for name in model_to_dict(SomeObj) if name not in ['id', 'date']]
-
-    @staticmethod
-    def get_conditions():
-        return ['equals', 'greater', 'less', 'contains']
-
-
-class BaseView(Filter, views.generic.ListView):
+class BaseView(views.generic.ListView):
 
     model = SomeObj
     template_name = 'spa/index.html'
@@ -31,7 +20,7 @@ class BaseView(Filter, views.generic.ListView):
         return context
 
 
-class FilterView(Filter, views.generic.ListView):
+class FilterView(views.generic.ListView):
 
     model = SomeObj
     template_name = 'spa/index.html'
